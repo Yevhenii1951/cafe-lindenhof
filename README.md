@@ -56,34 +56,30 @@ Enhancement für Menü, Galerie-Lightbox und Karte.
 
 <table>
   <tr>
-    <td><img src="public/for_Readme/home-desktop.jpg" alt="Startseite Desktop" width="400"/></td>
-    <td><img src="public/for_Readme/home-tablet.jpg" alt="Startseite Tablet" width="400"/></td>
+    <td><img src="public/for_Readme/startsite-1.webp" alt="Startseite – oben" width="400"/></td>
+    <td><img src="public/for_Readme/startsite-2.webp" alt="Startseite – Abschnitt" width="400"/></td>
   </tr>
   <tr>
-    <td><img src="public/for_Readme/home-mobile.jpg" alt="Startseite Mobil" width="400"/></td>
-    <td><img src="public/for_Readme/mobile-drawer.jpg" alt="Mobile Navigation (Drawer)" width="400"/></td>
-  </tr>
-</table>
-
-### Unterseiten
-
-<table>
-  <tr>
-    <td><img src="public/for_Readme/menu.jpg" alt="Speisekarte" width="400"/></td>
-    <td><img src="public/for_Readme/gallery.jpg" alt="Galerie" width="400"/></td>
-  </tr>
-  <tr>
-    <td><img src="public/for_Readme/contact.jpg" alt="Kontakt" width="400"/></td>
-    <td><img src="public/for_Readme/newsletter.jpg" alt="Newsletter" width="400"/></td>
+    <td><img src="public/for_Readme/startliste-3.webp" alt="Startseite – Abschnitt" width="400"/></td>
+    <td><img src="public/for_Readme/startliste-4.webp" alt="Startseite – Abschnitt" width="400"/></td>
   </tr>
 </table>
 
-### Interaktionen
+### Speisekarte
 
 <table>
   <tr>
-    <td><img src="public/for_Readme/nav-dropdown.jpg" alt="Navigations-Dropdown" width="400"/></td>
-    <td><img src="public/for_Readme/tabs.jpg" alt="Tab-Wechsel in der Speisekarte" width="400"/></td>
+    <td><img src="public/for_Readme/menu.webp" alt="Speisekarte" width="400"/></td>
+    <td><img src="public/for_Readme/getraenke-und-kuchen.webp" alt="Getränke &amp; Kuchen" width="400"/></td>
+  </tr>
+</table>
+
+### Über uns &amp; Reservierung
+
+<table>
+  <tr>
+    <td><img src="public/for_Readme/ueber-uns.webp" alt="Über uns" width="400"/></td>
+    <td><img src="public/for_Readme/reservierung.webp" alt="Reservierung" width="400"/></td>
   </tr>
 </table>
 
