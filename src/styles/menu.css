@@ -1,0 +1,177 @@
+@layer components {
+/* Split from the original file to keep files under 300 lines. */
+
+/* ---------- page title (inner pages) ---------- */
+
+.page-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+  padding: 150px 0 90px;
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+}
+
+.page-title::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+@media (min-width: 1200px) {
+  .page-title {
+    min-height: 610px;
+    padding: 250px 0 230px;
+  }
+}
+
+/* ---------- menu list card ---------- */
+
+.menu-list-card {
+  background: #fff;
+  padding: 30px;
+}
+
+.menu-list-card .scroll {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.menu-item .title {
+  font-size: 15px;
+  color: var(--color-ink);
+  font-weight: 600;
+  margin: 0;
+}
+
+.menu-item .lead-dots {
+  flex: 1;
+  border-bottom: 1px dotted color-mix(in srgb, var(--color-body) 60%, transparent);
+  transform: translateY(-4px);
+}
+
+.menu-item .amount {
+  font-size: 14px;
+  color: var(--color-ink);
+}
+
+.menu-group {
+  margin-bottom: 20px;
+}
+
+/* Menu list blocks: image 670px + list card ~582px, card overlaps the photo. */
+.mb-block {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .mb-block {
+    gap: 0;
+    grid-template-columns: 670px 500px;
+  }
+  .mb-block--right {
+    grid-template-columns: 500px 670px;
+  }
+  .mb-block--right .mb-media {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .mb-block--right .menu-list-card {
+    grid-column: 1;
+    grid-row: 1;
+    margin-right: -80px;
+  }
+  .mb-block--left .menu-list-card {
+    margin-left: -80px;
+  }
+}
+
+.menu-group .cat {
+  font-size: 14px;
+  color: var(--color-body);
+  margin: 0 0 8px;
+}
+
+/* ---------- newsletter ---------- */
+
+.newsletter {
+  background: var(--accent);
+  color: #fff;
+}
+
+.newsletter input[type="email"] {
+  flex: 1 1 140px;
+  min-width: 0;
+  height: 50px;
+  padding: 0 20px;
+  border: 0;
+  background: #fff;
+  color: var(--color-ink-strong);
+  font-size: 15px;
+}
+
+.newsletter button {
+  flex: 0 0 auto;
+  height: 50px;
+  padding: 0 30px;
+  border: 0;
+  background: var(--color-ink-strong);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.newsletter button:hover {
+  background: #fff;
+  color: var(--color-ink-strong);
+}
+
+/* ---------- forms ---------- */
+
+.field {
+  width: 100%;
+  height: 50px;
+  padding: 0 15px 0 50px;
+  background: #fff;
+  border: 0.8px solid var(--accent);
+  border-radius: 0;
+  color: var(--color-ink-strong);
+  font-size: 15px;
+  font-family: var(--font-sans);
+}
+
+textarea.field {
+  height: auto;
+  min-height: 150px;
+  padding: 13px 15px 13px 50px;
+}
+
+.field--plain {
+  padding-left: 15px;
+}
+
+textarea.field--plain {
+  padding-left: 15px;
+}
+
+.field:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 1px;
+}
+}

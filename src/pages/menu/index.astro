@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import MenuBlocks from '../../components/sections/MenuBlocks.astro';
+import Dishes from '../../components/sections/Dishes.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import Newsletter from '../../components/Newsletter.astro';
+
+const classic: { name: string; note: string; price: string }[][] = [
+  [
+    { name: 'Frühstücksbrett', note: 'Brioche, Ei, Käse, Aufstriche', price: '12,50 €' },
+    { name: 'Shakshuka', note: 'Tomaten-Paprika, Feta, Minze', price: '11,90 €' },
+    { name: 'Kassler mit Linsen', note: 'Räucherschinken, grüne Linsen', price: '16,50 €' },
+    { name: 'Ofenlachs', note: 'Dill, Kartoffelstampf, Zitrone', price: '19,80 €' },
+    { name: 'Pilz-Risotto', note: 'Waldpilze, Parmesan, Thymian', price: '15,40 €' }
+  ],
+  [
+    { name: 'Lindenhof-Burger', note: 'Rind, Bergkäse, Gurke, Fries', price: '16,90 €' },
+    { name: 'Ofengemüse', note: 'Saisongemüse, Tahini, Kräuter', price: '13,50 €' },
+    { name: 'Käsespätzle', note: 'Röstzwiebeln, Salat', price: '12,50 €' },
+    { name: 'Salat Lindenhof', note: 'Hausdressing, Sauerteigbrot', price: '11,90 €' },
+    { name: 'Tages suppe', note: 'wechselnd, mit Brot', price: '7,50 €' }
+  ]
+];
+---
+
+<BaseLayout title="Speisekarte – Café Lindenhof Kassel">
+  <PageTitle title="Speisekarte" />
+
+  <MenuBlocks />
+  <Dishes heading={false} photoBg={false} id="karte" />
+
+  <section class="section">
+    <div class="container-site">
+      <SectionHeading eyebrow="Für die Tafel" title="Klassiker" lead="Feste Gerichte, die bei uns nie von der Karte gehen." />
+      <div class="grid gap-x-16 gap-y-4 md:grid-cols-2">
+        {
+          classic.map((column) => (
+            <ul class="m-0 list-none p-0">
+              {column.map((item) => (
+                <li class="mb-4">
+                  <div class="menu-item">
+                    <span class="title">{item.name}</span>
+                    <span class="lead-dots" aria-hidden="true" />
+                    <span class="amount">{item.price}</span>
+                  </div>
+                  <p class="m-0 text-[14px] leading-relaxed">{item.note}</p>
+                </li>
+              ))}
+            </ul>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Newsletter />
+</BaseLayout>

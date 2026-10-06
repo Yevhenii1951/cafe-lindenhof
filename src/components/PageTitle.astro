@@ -1,0 +1,26 @@
+---
+import { pageTitlePhoto } from '../lib/images';
+
+interface Props {
+  title: string;
+  photo?: string;
+}
+
+const { title, photo = pageTitlePhoto } = Astro.props;
+---
+
+<section class="page-title" style={`background-image:url('${photo}')`}>
+  <div class="container-site relative z-1">
+    <h1 class="h-display h-display--white ls-4">{title}</h1>
+  </div>
+</section>
+
+<style>
+  .ls-4 {
+    letter-spacing: 4px;
+  }
+  .relative.z-1 {
+    position: relative;
+    z-index: 1;
+  }
+</style>

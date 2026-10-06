@@ -1,0 +1,68 @@
+---
+import SectionHeading from '../SectionHeading.astro';
+import { bandPhoto } from '../../lib/images';
+
+const columns: { title: string; items: { name: string; price: string }[] }[] = [
+  {
+    title: 'Kaffee',
+    items: [
+      { name: 'Espresso', price: '2,40 €' },
+      { name: 'Caffè Crema', price: '3,20 €' },
+      { name: 'Flat White', price: '3,90 €' },
+      { name: 'Cold Brew', price: '4,40 €' },
+      { name: 'Kaffee Sahne', price: '4,60 €' }
+    ]
+  },
+  {
+    title: 'Tee',
+    items: [
+      { name: 'Darjeeling', price: '3,40 €' },
+      { name: 'Kamillenblüte', price: '3,20 €' },
+      { name: 'Pfefferminze', price: '3,20 €' },
+      { name: 'Grüner Sencha', price: '3,60 €' },
+      { name: 'Rooibos Vanille', price: '3,40 €' }
+    ]
+  },
+  {
+    title: 'Kuchen',
+    items: [
+      { name: 'Marmorkuchen', price: '4,20 €' },
+      { name: 'Zitronentarte', price: '4,80 €' },
+      { name: 'Käsekuchen', price: '4,60 €' },
+      { name: 'Birnenkuchen', price: '4,80 €' },
+      { name: 'Tageskuchen', price: '4,50 €' }
+    ]
+  }
+];
+---
+
+<section class="relative" style={`background-image:url('${bandPhoto}');background-size:cover;background-position:center`}>
+  <div class="absolute inset-0 bg-black/45" aria-hidden="true"></div>
+
+  <div class="relative">
+    <div class="container-site section">
+      <SectionHeading eyebrow="Die Karte" title="Getränke & Kuchen" light />
+    </div>
+
+    <div class="container-site section !pt-0 grid gap-10 md:grid-cols-3">
+      {
+        columns.map((column) => (
+          <div class="menu-classic">
+            <h3 class="mb-6 text-center text-lg font-bold uppercase tracking-[3px] text-white">
+              {column.title}
+            </h3>
+            <ul class="m-0 list-none p-0">
+              {column.items.map((item) => (
+                <li class="menu-item mb-3 !items-center text-white">
+                  <span class="title !text-white">{item.name}</span>
+                  <span class="lead-dots !border-white/40" aria-hidden="true" />
+                  <span class="amount !text-white">{item.price}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

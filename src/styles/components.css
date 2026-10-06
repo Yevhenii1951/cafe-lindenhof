@@ -1,0 +1,198 @@
+@layer components {
+/* Split from the original file to keep files under 300 lines. */
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-block;
+  padding: 16px 30px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  background: transparent;
+  border: 1.6px solid var(--accent);
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn--filled {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn--filled:hover,
+.btn--filled:focus-visible {
+  background: #fff;
+  color: var(--accent);
+}
+
+.btn--ghost {
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.btn--ghost:hover,
+.btn--ghost:focus-visible {
+  background: #fff;
+  color: var(--accent);
+}
+
+/* ---------- section heading ---------- */
+
+.heading-block {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.heading-block .lead {
+  max-width: 640px;
+  margin-inline: auto;
+  margin-top: 30px;
+}
+
+/* ---------- cards ---------- */
+
+.card-shadow {
+  background: #fff;
+  box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25);
+}
+
+.image-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-box .hover-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--accent) 90%, transparent);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.image-box:hover .hover-layer,
+.image-box:focus-within .hover-layer {
+  opacity: 1;
+}
+
+/* menu / dish card with thumb hover */
+
+.dish-card {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.dish-card .thumb {
+  position: relative;
+  width: 170px;
+  min-width: 170px;
+  height: 170px;
+  overflow: hidden;
+}
+
+.dish-card .thumb-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--accent) 90%, transparent);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.dish-card .thumb-overlay svg {
+  transform: translate(-12px, -21px);
+  transition: transform 0.3s;
+}
+
+.dish-card:hover .thumb-overlay,
+.dish-card:focus-within .thumb-overlay {
+  opacity: 1;
+}
+
+.dish-card:hover .thumb-overlay svg {
+  transform: translate(0, 0);
+}
+
+.dish-card .body {
+  flex: 1;
+  padding: 20px 25px;
+  min-width: 0;
+}
+
+.price {
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ---------- tabs ---------- */
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  background: var(--accent);
+  padding: 15px 0;
+  margin-bottom: 60px;
+}
+
+.tabs button {
+  padding: 0 26px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.tabs button[aria-selected="true"],
+.tabs button:hover {
+  color: #fff;
+}
+
+/* tab panels: soft cross-fade instead of an instant swap */
+[data-panel]:not([hidden]) {
+  animation: panel-soft-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes panel-soft-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@media (max-width: 575px) {
+  .tabs {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .tabs button {
+    padding: 6px 0;
+  }
+}
+}

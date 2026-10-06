@@ -1,0 +1,49 @@
+---
+import { ArrowUp } from '@lucide/astro';
+import { siFacebook, siInstagram, siX, siYoutube } from 'simple-icons';
+
+const socials = [
+  { title: 'Facebook', icon: siFacebook },
+  { title: 'Instagram', icon: siInstagram },
+  { title: 'X', icon: siX },
+  { title: 'YouTube', icon: siYoutube }
+];
+---
+
+<footer class="site-footer">
+  <div class="container-site">
+    <div class="flex flex-col items-center gap-3 pb-6">
+      <div class="social flex">
+        {
+          socials.map(({ title, icon }) => (
+            <a href="#" aria-label={title}>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                <path d={icon.path} />
+              </svg>
+            </a>
+          ))
+        }
+      </div>
+      <p class="text-center text-[13px] text-body">
+        © {new Date().getFullYear()} Café Lindenhof ·
+        <a class="underline decoration-dotted hover:text-accent" href="/impressum">Impressum</a>
+        ·
+        <a class="underline decoration-dotted hover:text-accent" href="/datenschutz">Datenschutz</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" type="button" aria-label="Nach oben" data-top>
+  <ArrowUp size={18} />
+</button>
+
+<script>
+  const top = document.querySelector<HTMLButtonElement>('[data-top]');
+  const onScroll = () => top?.classList.toggle('is-visible', window.scrollY > 400);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  top?.addEventListener('click', () =>
+    window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+  );
+</script>

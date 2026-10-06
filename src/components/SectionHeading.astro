@@ -1,0 +1,17 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  light?: boolean;
+  align?: 'center' | 'left';
+}
+
+const { eyebrow, title, lead, light = false, align = 'center' } = Astro.props;
+---
+
+<div class:list={['heading-block', align === 'left' && 'text-left']}>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <h2 class:list={['h-display', light && 'h-display--light']}>{title}</h2>
+  {lead && <p class="lead">{lead}</p>}
+</div>

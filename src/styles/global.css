@@ -1,0 +1,179 @@
+@import "tailwindcss";
+@import "./components.css";
+@import "./menu.css";
+@import "./chrome.css";
+@import "./motion.css";
+
+@theme {
+  --font-sans: "Open Sans Variable", "Open Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Meddon", cursive;
+
+  --color-paper: #ffffff;
+  --color-ink: #2f2f2f;
+  --color-ink-strong: #0a0a0a;
+  --color-body: #787878;
+  --color-ghost: #eaeaea;
+  --color-footer-bg: #f3f3f3;
+  --color-home: #a67d5e;
+  --color-red: #ce2305;
+  --color-red-deep: #b92109;
+  --color-accent: var(--accent);
+}
+
+/* Accent is per page: home = warm brown, inner pages = red (measured on reference). */
+:root {
+  --accent: #ce2305;
+}
+body[data-accent="home"] {
+  --accent: #a67d5e;
+}
+body[data-accent="deep"] {
+  --accent: #b92109;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-body);
+  background: var(--color-paper);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Soft page-to-page transitions + smooth anchor scrolling. */
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root) {
+    animation: 0.22s ease both vt-fade-out;
+  }
+
+  ::view-transition-new(root) {
+    animation: 0.3s ease both vt-fade-in;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- layout ---------- */
+
+.container-site {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 15px;
+}
+
+.container-wide {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: 65px;
+}
+
+.section-lg {
+  padding-block: 95px;
+}
+
+/* ---------- typography ---------- */
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.h-display {
+  font-family: var(--font-sans);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--color-ink);
+}
+
+.h-display--light {
+  color: var(--color-ghost);
+}
+
+.h-display--white {
+  color: #fff;
+}
+
+.lead {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--color-body);
+}
+
+@media (min-width: 768px) {
+  .eyebrow {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+  .h-display {
+    font-size: 48px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .eyebrow {
+    font-size: 42px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .h-display {
+    font-size: 80px;
+  }
+}

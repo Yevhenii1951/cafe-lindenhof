@@ -1,0 +1,141 @@
+---
+import { Search, X, ChevronLeft, ChevronRight } from '@lucide/astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import { photo } from '../../lib/images';
+
+const items = Array.from({ length: 18 }, (_, i) => ({
+  src: photo(i, 800),
+  full: photo(i, 1800),
+  title: ['Frühstückstisch', 'Aus der Backstube', 'Mittagspause', 'Kuchenzeit', 'Kaffee-Bar', 'Abendstimmung'][i % 6],
+  excerpt: ['Seit 1998 am Platz', 'Jeden Morgen frisch', 'Wechselnde Karte', 'Aus eigener Vitrine', 'Röstung Kassel', 'Lange Tische'][i % 6]
+}));
+---
+
+<BaseLayout title="Galerie – Café Lindenhof Kassel">
+  <PageTitle title="Galerie" />
+
+  <section class="section">
+    <div class="container-site">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          items.map((item, index) => (
+            <figure class="gallery-item card-shadow relative m-0 overflow-hidden">
+              <img src={item.src} alt={item.title} width={800} height={800} loading="lazy" class="aspect-square w-full object-cover" />
+              <figcaption class="hover-wrap absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/70 p-6 text-center text-white opacity-0 transition-opacity duration-700">
+                <span class="text-[20px] font-bold uppercase tracking-wide">{item.title}</span>
+                <span class="text-[14px] italic opacity-80">{item.excerpt}</span>
+              </figcaption>
+              <button class="open absolute inset-0" type="button" aria-label={`${item.title} vergrößern`} data-open={index}>
+                <Search size={26} class="mx-auto text-white opacity-0 transition-opacity duration-300" />
+              </button>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <div class="lightbox" data-lightbox hidden role="dialog" aria-modal="true" aria-label="Bildansicht">
+    <button class="lb-close" type="button" aria-label="Schließen" data-lb-close><X size={26} /></button>
+    <button class="lb-nav prev" type="button" aria-label="Vorheriges Bild" data-lb-prev><ChevronLeft size={30} /></button>
+    <img src="" alt="" data-lb-img />
+    <button class="lb-nav next" type="button" aria-label="Nächstes Bild" data-lb-next><ChevronRight size={30} /></button>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ sources: items.map((item) => ({ full: item.full, title: item.title })) }}>
+  const box = document.querySelector('[data-lightbox]');
+  const img = document.querySelector('[data-lb-img]');
+  const opens = [...document.querySelectorAll('[data-open]')];
+  let index = 0;
+
+  const show = (next) => {
+    index = (next + sources.length) % sources.length;
+    img.src = sources[index].full;
+    img.alt = sources[index].title;
+  };
+  const open = (next) => {
+    show(next);
+    box.hidden = false;
+    document.body.style.overflow = 'hidden';
+  };
+  const close = () => {
+    box.hidden = true;
+    document.body.style.overflow = '';
+  };
+
+  opens.forEach((btn, i) => btn.addEventListener('click', () => open(i)));
+  box.querySelector('[data-lb-close]').addEventListener('click', close);
+  box.querySelector('[data-lb-prev]').addEventListener('click', () => show(index - 1));
+  box.querySelector('[data-lb-next]').addEventListener('click', () => show(index + 1));
+  box.addEventListener('click', (event) => {
+    if (event.target === box) close();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (box.hidden) return;
+    if (event.key === 'Escape') close();
+    if (event.key === 'ArrowLeft') show(index - 1);
+    if (event.key === 'ArrowRight') show(index + 1);
+  });
+</script>
+
+<style>
+  .gallery-item:hover figcaption,
+  .gallery-item:focus-within figcaption {
+    opacity: 1;
+  }
+  .gallery-item:hover .open svg,
+  .gallery-item:focus-within .open svg {
+    opacity: 1;
+  }
+  .open {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .lightbox[hidden] {
+    display: none;
+  }
+  .lightbox img {
+    max-width: min(1100px, 92vw);
+    max-height: 84vh;
+    object-fit: contain;
+  }
+  .lb-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: none;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+  }
+  .lb-nav {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    background: none;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    padding: 12px;
+  }
+  .lb-nav.prev {
+    left: 12px;
+  }
+  .lb-nav.next {
+    right: 12px;
+  }
+</style>

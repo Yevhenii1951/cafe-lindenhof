@@ -1,0 +1,274 @@
+@layer components {
+/* Split from the original file to keep files under 300 lines. */
+
+/* ---------- header ---------- */
+
+.site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  height: 145px;
+  transition: height 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.site-header .bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  gap: 24px;
+}
+
+.site-header .logo {
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 1;
+  color: #fff;
+  text-decoration: none;
+  transition: font-size 0.3s;
+}
+
+.site-header.is-solid,
+.site-header--static {
+  position: relative;
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 1px 0 3px 2px rgba(0, 0, 0, 0.1);
+}
+
+.site-header.is-solid {
+  position: fixed;
+  height: 55px;
+}
+
+.site-header.is-solid .logo {
+  font-size: 30px;
+}
+
+.site-header--static {
+  position: relative;
+  height: 146px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.site-header--static .logo {
+  color: var(--accent);
+}
+
+/* nav */
+
+.main-nav > ul {
+  display: flex;
+  gap: 30px;
+}
+
+.main-nav a {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.3s, font-weight 0.3s;
+}
+
+.main-nav a:hover,
+.main-nav a[aria-current="page"] {
+  color: var(--accent);
+  font-weight: 900;
+}
+
+/* top-level nav items: soft underline sweep in/out */
+.main-nav > ul > li > a {
+  position: relative;
+}
+
+.main-nav > ul > li > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-nav > ul > li > a:hover::after,
+.main-nav > ul > li > a:focus-visible::after,
+.main-nav > ul > li > a[aria-current="page"]::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.site-header--static .main-nav a {
+  color: var(--color-ink);
+}
+
+.site-header--static .main-nav a:hover,
+.site-header--static .main-nav a[aria-current="page"] {
+  color: var(--accent);
+}
+
+.main-nav li {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 210px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  background: #fff;
+  box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: perspective(600px) rotateX(-90deg);
+  transform-origin: top center;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s,
+    visibility 0.35s;
+  z-index: 950;
+}
+
+.has-dropdown:hover > .dropdown,
+.has-dropdown:focus-within > .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: perspective(600px) rotateX(0deg);
+}
+
+.dropdown a {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 20px;
+  color: #111;
+  font-size: 15px;
+  font-weight: 400;
+  text-transform: none;
+  border-bottom: 1px solid #f0f0f0;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-size: 0 100%;
+  transition: background-size 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s, font-weight 0.3s;
+}
+
+.main-nav .dropdown a:hover,
+.dropdown a:hover {
+  background-size: 100% 100%;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* burger + drawer */
+
+.burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100dvh;
+  background: #212121;
+  z-index: 9999;
+  overflow-y: auto;
+  padding-top: 30px;
+  transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drawer.is-open {
+  left: 0;
+}
+
+.drawer a {
+  display: block;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 20px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-size: 0 100%;
+  transition: background-size 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s;
+}
+
+.drawer a[aria-current="page"] {
+  color: var(--accent);
+  font-weight: 900;
+}
+
+.drawer a:hover,
+.drawer a:focus-visible {
+  background-size: 100% 100%;
+  color: #fff;
+}
+
+.drawer .sub a {
+  background-color: #313131;
+  height: 42px;
+  line-height: 42px;
+  font-weight: 400;
+  text-transform: none;
+  padding-left: 36px;
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s;
+  z-index: 9998;
+}
+
+.scrim.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (max-width: 991px) {
+  .main-nav {
+    display: none;
+  }
+  .burger {
+    display: inline-flex;
+  }
+  .site-header {
+    position: relative;
+    height: 90px;
+    background: #fff;
+  }
+  .site-header .logo {
+    color: var(--accent);
+    font-size: 34px;
+  }
+  .site-header.is-solid {
+    position: fixed;
+    height: 55px;
+  }
+}
+}

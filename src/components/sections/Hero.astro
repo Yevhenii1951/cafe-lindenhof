@@ -1,0 +1,114 @@
+---
+import { heroPhotos } from '../../lib/images';
+
+const slides = [
+  {
+    photo: heroPhotos[0],
+    script: 'Willkommen',
+    display: 'Ehrliche Küche',
+    sub: 'Seit 1998 in Kassel',
+    cta: { label: 'Tisch reservieren', href: '/reservation' }
+  },
+  {
+    photo: heroPhotos[1],
+    script: 'Frisch gebrüht',
+    display: 'Kaffee & Mehr',
+    sub: 'Bohnen aus hessischer Rösterei',
+    cta: { label: 'Speisekarte', href: '/menu' }
+  },
+  {
+    photo: heroPhotos[2],
+    script: 'Jeden Morgen',
+    display: 'Hausgemacht',
+    sub: 'Brot aus eigener Backstube',
+    cta: { label: 'Zur Reservierung', href: '/reservation' }
+  }
+];
+---
+
+<section class="hero" data-hero aria-roledescription="Karussell" aria-label="Highlights">
+  {
+    slides.map((slide, index) => (
+      <div
+        class:list={['slide', index === 0 && 'is-active']}
+        data-slide
+        style={`background-image:url('${slide.photo}')`}
+        aria-hidden={index === 0 ? 'false' : 'true'}
+      >
+        <div class="inner">
+          <span class="script fade-up">{slide.script}</span>
+          <h1 class="display" data-split>
+            {slide.display}
+          </h1>
+          <p class="sub fade-up">{slide.sub}</p>
+          <div class="fade-up">
+            <a class="btn btn--ghost" href={slide.cta.href}>
+              {slide.cta.label}
+            </a>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+
+  <div class="dots" role="tablist" aria-label="Slides">
+    {
+      slides.map((_, index) => (
+        <button
+          type="button"
+          role="tab"
+          aria-label={`Slide ${index + 1}`}
+          aria-current={index === 0 ? 'true' : 'false'}
+          data-dot={index}
+        />
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero) {
+    hero.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
+      const text = el.textContent ?? '';
+      el.textContent = '';
+      [...text].forEach((char, i) => {
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.style.setProperty('--i', String(i));
+        span.textContent = char === ' ' ? '\u00A0' : char;
+        el.appendChild(span);
+      });
+    });
+
+    const slides = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
+    const dots = [...hero.querySelectorAll<HTMLButtonElement>('[data-dot]')];
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let index = 0;
+    let timer: ReturnType<typeof setInterval> | undefined;
+
+    const show = (next: number) => {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('is-active', i === index);
+        slide.setAttribute('aria-hidden', String(i !== index));
+      });
+      dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === index)));
+    };
+
+    const play = () => {
+      if (reduce || slides.length < 2) return;
+      timer = setInterval(() => show(index + 1), 7000);
+    };
+
+    dots.forEach((dot, i) =>
+      dot.addEventListener('click', () => {
+        clearInterval(timer);
+        show(i);
+        play();
+      })
+    );
+
+    play();
+  }
+</script>

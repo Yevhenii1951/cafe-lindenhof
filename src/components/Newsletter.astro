@@ -1,0 +1,71 @@
+---
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  deep?: boolean;
+}
+
+const { eyebrow = 'Jetzt abonnieren', title = 'Newsletter', deep = false } = Astro.props;
+---
+
+<section class="newsletter" style={deep ? 'background:#b92109' : ''}>
+  <div class="container-site py-16">
+    <div class="grid items-center gap-8 lg:grid-cols-[1fr_420px]">
+      <div>
+        <span class="eyebrow">{eyebrow}</span>
+        <h2 class="h-display">{title}</h2>
+      </div>
+        <form class="flex flex-row flex-wrap items-center gap-3" data-newsletter novalidate>
+        <label class="sr-only" for={`newsletter-${title}`}>E-Mail-Adresse</label>
+        <input id={`newsletter-${title}`} type="email" name="email" placeholder="Ihre E-Mail-Adresse" required />
+        <button type="submit">Abonnieren</button>
+        <p class="status" role="status" data-newsletter-status></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-newsletter]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>('[data-newsletter-status]');
+      const input = form.querySelector<HTMLInputElement>('input[type="email"]');
+      if (!input?.value || !input.checkValidity()) {
+        if (status) status.textContent = 'Bitte eine gültige E-Mail-Adresse eingeben.';
+        input?.focus();
+        return;
+      }
+      if (status) status.textContent = 'Danke – bitte E-Mail bestätigen (Demo, kein Versand).';
+      form.reset();
+    });
+  });
+</script>
+
+<style>
+  .newsletter .eyebrow {
+    color: #fff;
+  }
+
+  .newsletter .h-display {
+    color: rgba(255, 255, 255, 0.39);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .status {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: 13px;
+    color: #fff;
+  }
+</style>

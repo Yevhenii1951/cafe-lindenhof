@@ -1,0 +1,113 @@
+---
+import { ChevronLeft, ChevronRight, Quote } from '@lucide/astro';
+import { parallaxPhoto } from '../../lib/images';
+
+const quotes = [
+  {
+    text: 'Wir kommen sonntags zum Frühstück und bleiben oft bis zum zweiten Kaffee. Der Bircher-Müsli ist der beste der Stadt.',
+    author: 'Anna K.'
+  },
+  {
+    text: 'Unkomplizierte Küche, ehrliche Zutaten und ein Team, das sich um seine Stammgäste kümmert. Genau das braucht ein Viertel.',
+    author: 'Mehmet Y.'
+  },
+  {
+    text: 'Von der Backstube bis zum Abendlicht hier stimmt alles. Der Streuselkuchen schmeckt wie bei der Oma – absichtlich.',
+    author: 'Lena S.'
+  }
+];
+---
+
+<section
+  class="relative overflow-hidden"
+  data-parallax-section
+  style={`background-image:url('${parallaxPhoto}');background-size:cover;background-position:center`}
+>
+  <div class="absolute inset-0 bg-black/70" aria-hidden="true"></div>
+
+  <div class="container-site section relative">
+    <div class="heading-block">
+      <span class="eyebrow">Stimmen</span>
+      <h2 class="h-display h-display--white">Was Gäste sagen</h2>
+    </div>
+
+    <div class="relative mx-auto max-w-[760px]" data-carousel>
+      <div class="overflow-hidden" aria-live="polite">
+        <div class="flex transition-transform duration-500 ease-out" data-track>
+          {
+            quotes.map((quote) => (
+              <figure class="w-full shrink-0 px-4 text-center">
+                <div class="card-shadow mx-auto max-w-[470px] px-8 py-9">
+                  <Quote size={30} class="mx-auto mb-4" style="color:var(--accent)" />
+                  <blockquote class="m-0 text-[18px] leading-[28.8px] text-[#0c0c0c]">
+                    {quote.text}
+                  </blockquote>
+                  <figcaption class="mt-4 text-[15px] font-bold uppercase tracking-wide" style="color:var(--accent)">
+                    {quote.author}
+                  </figcaption>
+                </div>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+
+      <button class="ctrl prev" type="button" aria-label="Vorheriges Zitat" data-prev>
+        <ChevronLeft size={22} />
+      </button>
+      <button class="ctrl next" type="button" aria-label="Nächstes Zitat" data-next>
+        <ChevronRight size={22} />
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ctrl {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.6px solid var(--accent);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .ctrl:hover {
+    background: var(--accent);
+  }
+  .prev {
+    left: -10px;
+  }
+  .next {
+    right: -10px;
+  }
+  @media (min-width: 1200px) {
+    .prev {
+      left: -70px;
+    }
+    .next {
+      right: -70px;
+    }
+  }
+</style>
+
+<script>
+  const carousel = document.querySelector<HTMLElement>('[data-carousel]');
+  if (carousel) {
+    const track = carousel.querySelector<HTMLElement>('[data-track]');
+    const slides = track ? track.children.length : 0;
+    let index = 0;
+    const go = (next: number) => {
+      index = (next + slides) % slides;
+      if (track) track.style.transform = `translateX(-${index * 100}%)`;
+    };
+    carousel.querySelector('[data-prev]')?.addEventListener('click', () => go(index - 1));
+    carousel.querySelector('[data-next]')?.addEventListener('click', () => go(index + 1));
+  }
+</script>

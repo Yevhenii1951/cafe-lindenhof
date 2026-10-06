@@ -1,0 +1,106 @@
+---
+import { Menu, X, ChevronDown } from '@lucide/astro';
+import { nav } from '../lib/nav';
+
+interface Props {
+  variant?: 'float' | 'static';
+}
+
+const { variant = 'float' } = Astro.props;
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+const isCurrent = (href: string) => {
+  const target = href.replace(/\/+$/, '') || '/';
+  if (target === '/') return path === '/';
+  return path === target || path.startsWith(`${target}#`) || path === target.split('#')[0];
+};
+---
+
+<header class:list={['site-header', variant === 'static' && 'site-header--static']} data-header={variant}>
+  <div class="container-site bar">
+    <a class="logo" href="/">Café Lindenhof</a>
+
+    <nav class="main-nav" aria-label="Hauptnavigation">
+      <ul>
+        {
+          nav.map((item) => (
+            <li class:list={[item.children && 'has-dropdown']}>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+                {item.children && <ChevronDown size={14} stroke-width={2.5} />}
+              </a>
+              {item.children && (
+                <ul class="dropdown">
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={child.href}>{child.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <button class="burger" type="button" aria-label="Menü öffnen" aria-expanded="false" data-burger>
+      <Menu size={26} />
+    </button>
+  </div>
+</header>
+
+<div class="scrim" data-scrim hidden></div>
+
+<nav class="drawer" aria-label="Mobile Navigation" data-drawer aria-hidden="true">
+  <button class="burger" type="button" aria-label="Menü schließen" data-close style="display:inline-flex;margin-left:auto;margin-right:12px">
+    <X size={24} color="#fff" />
+  </button>
+  {
+    nav.map((item) => (
+      <div>
+        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+          {item.label}
+        </a>
+        {item.children && (
+          <div class="sub">
+            {item.children.map((child) => (
+              <a href={child.href}>{child.label}</a>
+            ))}
+          </div>
+        )}
+      </div>
+    ))
+  }
+</nav>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header="float"]');
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
+  const drawer = document.querySelector<HTMLElement>('[data-drawer]');
+  const scrim = document.querySelector<HTMLElement>('[data-scrim]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-close]');
+
+  const setOpen = (open: boolean) => {
+    drawer?.classList.toggle('is-open', open);
+    scrim?.classList.toggle('is-open', open);
+    if (scrim) scrim.hidden = !open;
+    drawer?.setAttribute('aria-hidden', String(!open));
+    burger?.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+
+  burger?.addEventListener('click', () => setOpen(true));
+  closeBtn?.addEventListener('click', () => setOpen(false));
+  scrim?.addEventListener('click', () => setOpen(false));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+
+  const onScroll = () => {
+    if (!header) return;
+    header.classList.toggle('is-solid', window.scrollY > 200);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

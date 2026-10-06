@@ -1,0 +1,101 @@
+---
+import { Search } from '@lucide/astro';
+import SectionHeading from '../SectionHeading.astro';
+import { menuTabs } from '../../lib/menu';
+import { photo } from '../../lib/images';
+
+interface Props {
+  heading?: boolean;
+  photoBg?: boolean;
+  id?: string;
+}
+
+const { heading = true, photoBg = true, id = 'dishes' } = Astro.props;
+---
+
+<section
+  {id}
+  class="section-lg relative"
+  style={photoBg ? `background-image:url('${photo(14, 1800)}');background-size:cover;background-position:center` : ''}
+>
+  {photoBg && <div class="absolute inset-0 bg-white/70" aria-hidden="true"></div>}
+
+  <div class="container-site relative">
+    {
+      heading && (
+        <SectionHeading
+          eyebrow="Was auf den Tisch kommt"
+          title="Unsere Spezialitäten"
+          lead="Wechselnde Karte, feste Lieblinge – alles, was wir selbst machen können, machen wir selbst."
+        />
+      )
+    }
+
+    <div class="tabs" role="tablist" aria-label="Gerichte">
+      {
+        menuTabs.map((tab, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`tab-${tab.id}`}
+            aria-controls={`panel-${tab.id}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            data-tab={tab.id}
+          >
+            {tab.label}
+          </button>
+        ))
+      }
+    </div>
+
+    {
+      menuTabs.map((tab, i) => (
+        <div
+          id={`panel-${tab.id}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${tab.id}`}
+          class="grid gap-6 md:grid-cols-2"
+          data-panel
+          hidden={i !== 0}
+        >
+          {tab.items.map((dish) => (
+            <article class="dish-card card-shadow">
+              <div class="thumb">
+                <img
+                  src={photo(dish.img, 400)}
+                  alt={dish.name}
+                  width={400}
+                  height={400}
+                  loading="lazy"
+                  class="h-full w-full object-cover"
+                />
+                <div class="thumb-overlay" aria-hidden="true">
+                  <Search size={30} />
+                </div>
+              </div>
+              <div class="body flex flex-col justify-center">
+                <div class="flex items-baseline justify-between gap-3">
+                  <h3 class="m-0 text-[15px] font-semibold uppercase tracking-wide text-ink">{dish.name}</h3>
+                  <span class="price whitespace-nowrap">{dish.price}</span>
+                </div>
+                <p class="mb-0 text-[13px] leading-relaxed">{dish.note}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+  const panels = [...document.querySelectorAll<HTMLElement>('[data-panel]')];
+  tabs.forEach((tab) =>
+    tab.addEventListener('click', () => {
+      const id = tab.dataset.tab;
+      tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+      panels.forEach((panel) => (panel.hidden = panel.id !== `panel-${id}`));
+    })
+  );
+</script>

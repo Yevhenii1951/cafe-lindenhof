@@ -1,0 +1,58 @@
+---
+import { Wheat, Coffee, Heart } from '@lucide/astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import Newsletter from '../../components/Newsletter.astro';
+import { photo } from '../../lib/images';
+
+const values = [
+  { icon: Wheat, title: 'Eigenes Backwerk', text: 'Sauerteig, Buttergebäck und Kuchen – jeden Morgen aus dem Ofen.' },
+  { icon: Coffee, title: 'Ehrlicher Kaffee', text: 'Bohnen aus hessischer Rösterei, frisch gemahlen, nie standing.' },
+  { icon: Heart, title: 'Regionale Küche', text: 'Gemüse und Fleisch von Höfen im Umkreis von 60 Kilometern.' }
+];
+---
+
+<BaseLayout title="Über uns – Café Lindenhof Kassel">
+  <PageTitle title="Über uns" />
+
+  <section class="section">
+    <div class="container-site grid items-center gap-10 lg:grid-cols-2">
+      <img src={photo(5, 1200)} alt="Aus der Küche des Café Lindenhof" width={1200} height={800} loading="lazy" class="h-[420px] w-full object-cover" />
+      <div>
+        <span class="eyebrow">Seit 1998</span>
+        <h2 class="h-display">Ein Haus am Lindenhof</h2>
+        <p class="lead">
+          Angefangen hat alles mit einem Ofen, zwei Tischen und dem Vorsatz, morgens frisch zu backen. Geblieben ist
+          beides – dazu ein kleiner Mittagstisch und abends ein Glas Wein mit den Nachbarn.
+        </p>
+        <p class="lead">
+          Wir kochen, was die Saison hergibt, und schreiben die Karte lieber neu, als sie zu stapeln. Was Sie bei uns
+          finden, ist Alltag: ehrlich, hausgemacht und ohne große Inszenierung.
+        </p>
+        <a class="btn mt-4 inline-block" href="/reservation">Tisch reservieren</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section !pt-0">
+    <div class="container-site">
+      <SectionHeading eyebrow="Was uns wichtig ist" title="Drei feste Regeln" />
+      <div class="grid gap-8 sm:grid-cols-3">
+        {
+          values.map(({ icon: Icon, title, text }) => (
+            <article class="text-center">
+              <span class="mx-auto mb-4 flex h-16 w-16 items-center justify-center" style="color:var(--accent)">
+                <Icon size={34} />
+              </span>
+              <h3 class="mb-2 text-[15px] font-bold uppercase tracking-wide text-ink">{title}</h3>
+              <p class="m-0">{text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Newsletter eyebrow="Bleiben Sie" title="Im Kontakt" deep />
+</BaseLayout>

@@ -1,0 +1,95 @@
+---
+import { MapPin, Clock, Phone, Mail } from '@lucide/astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import ContactForm from '../../components/ContactForm.astro';
+
+const info = [
+  { icon: MapPin, label: 'Adresse', lines: ['Lindenhof 12', '34117 Kassel'] },
+  { icon: Clock, label: 'Öffnungszeiten', lines: ['Mo–Fr 7:30–22:00', 'Sa–So 8:00–23:00'] },
+  { icon: Phone, label: 'Telefon', lines: ['0561 – 4 70 00 00'] },
+  { icon: Mail, label: 'E-Mail', lines: ['hallo@cafe-lindenhof.de'] }
+];
+---
+
+<BaseLayout title="Kontakt – Café Lindenhof Kassel">
+  <PageTitle title="Kontakt" />
+
+  <section class="section">
+    <div class="container-site">
+      <SectionHeading eyebrow="Sagen Sie Hallo" title="So erreichen Sie uns" />
+
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          info.map(({ icon: Icon, label, lines }) => (
+            <div class="text-center">
+              <span class="mx-auto mb-3 flex h-12 w-12 items-center justify-center" style="color:var(--accent)">
+                <Icon size={28} />
+              </span>
+              <h2 class="mb-2 text-[15px] font-bold uppercase tracking-wide text-ink">{label}</h2>
+              {lines.map((line) => (
+                <p class="m-0">{line}</p>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section !pt-0">
+    <div class="container-site grid gap-12 lg:grid-cols-2">
+      <div>
+        <span class="eyebrow">Schreiben Sie uns</span>
+        <h2 class="h-display">Nachricht</h2>
+        <p class="lead">Fragen zu Gruppen, Events oder Allergien? Wir antworten in der Regel innerhalb eines Tages.</p>
+        <ContactForm />
+      </div>
+
+      <div class="map-wrap">
+        <div class="map-placeholder" data-map-placeholder>
+          <p class="mb-4 max-w-[320px] text-center">
+            Die Karte wird erst nach Ihrer Einwilligung geladen (externer Dienst).
+          </p>
+          <button class="btn" type="button" data-map-load>Karte laden</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const placeholder = document.querySelector<HTMLElement>('[data-map-placeholder]');
+  const loader = document.querySelector<HTMLButtonElement>('[data-map-load]');
+  loader?.addEventListener('click', () => {
+    const wrap = placeholder?.parentElement;
+    if (!wrap) return;
+    const frame = document.createElement('iframe');
+    frame.src =
+      'https://www.openstreetmap.org/export/embed.html?bbox=9.4650%2C51.3060%2C9.4950%2C51.3200&layer=mapnik&marker=51.3127%2C9.4797';
+    frame.title = 'Karte Café Lindenhof, Kassel';
+    frame.loading = 'lazy';
+    frame.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
+    wrap.appendChild(frame);
+    placeholder?.remove();
+  });
+</script>
+
+<style>
+  .map-wrap {
+    position: relative;
+    min-height: 380px;
+    background: #efece7;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.15);
+  }
+  .map-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #787878;
+  }
+</style>

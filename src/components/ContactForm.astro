@@ -1,0 +1,62 @@
+---
+interface Props {
+  idPrefix?: string;
+}
+
+const { idPrefix = 'contact' } = Astro.props;
+---
+
+<form class="grid gap-5" data-contact novalidate>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div class="relative">
+      <label class="sr-only" for={`${idPrefix}-name`}>Name</label>
+      <input class="field" id={`${idPrefix}-name`} name="name" type="text" placeholder="Vorname" required />
+    </div>
+    <div class="relative">
+      <label class="sr-only" for={`${idPrefix}-email`}>E-Mail</label>
+      <input class="field" id={`${idPrefix}-email`} name="email" type="email" placeholder="Ihre E-Mail" required />
+    </div>
+  </div>
+
+  <div class="relative">
+    <label class="sr-only" for={`${idPrefix}-message`}>Nachricht</label>
+    <textarea class="field" id={`${idPrefix}-message`} name="message" placeholder="Ihre Nachricht" required></textarea>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-4">
+    <button class="btn btn--filled" type="submit">Nachricht senden</button>
+    <p class="m-0 text-[13px]" role="status" data-contact-status></p>
+  </div>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const status = form.querySelector<HTMLElement>('[data-contact-status]');
+      const fields = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea')];
+      const invalid = fields.find((field) => !field.checkValidity());
+      if (invalid) {
+        if (status) status.textContent = 'Bitte alle Pflichtfelder korrekt ausfüllen.';
+        invalid.focus();
+        return;
+      }
+      if (status) status.textContent = 'Danke – Ihre Nachricht wurde aufgenommen (Demo, kein Versand).';
+      form.reset();
+    });
+  });
+</script>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

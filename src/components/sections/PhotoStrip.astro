@@ -1,0 +1,43 @@
+---
+import { photo } from '../../lib/images';
+
+const items = Array.from({ length: 12 }, (_, i) => ({
+  src: photo(i + 2, 500),
+  alt: `Impression aus dem Café ${i + 1}`
+}));
+---
+
+<section class="overflow-hidden bg-[#17140f] py-4" aria-label="Impressionen">
+  <div class="track flex gap-3" data-marquee>
+    {[...items, ...items].map((item) => (
+      <img
+        src={item.src}
+        alt={item.alt}
+        width={240}
+        height={240}
+        loading="lazy"
+        class="h-[160px] w-[238px] shrink-0 object-cover opacity-90 transition-opacity duration-300 hover:opacity-100"
+      />
+    ))}
+  </div>
+</section>
+
+<style>
+  .track {
+    width: max-content;
+    animation: slide 60s linear infinite;
+  }
+  .track:hover {
+    animation-play-state: paused;
+  }
+  @keyframes slide {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .track {
+      animation: none;
+    }
+  }
+</style>

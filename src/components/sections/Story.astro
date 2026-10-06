@@ -1,0 +1,38 @@
+---
+import SectionHeading from '../SectionHeading.astro';
+import { photo } from '../../lib/images';
+
+const boxes = [
+  { title: 'Frühstück', excerpt: 'Von 7 bis 11 Uhr, jeden Tag', icon: '☕', img: photo(9, 900) },
+  { title: 'Mittagstisch', excerpt: 'Wechselnde Tagesgerichte', icon: '🍲', img: photo(3, 900) },
+  { title: 'Café & Bar', excerpt: 'Kuchen, Wein und ein gutes Glas', icon: '🍸', img: photo(16, 900) }
+];
+---
+
+<section class="section">
+  <div class="container-site">
+    <SectionHeading
+      eyebrow="Unsere Geschichte"
+      title="Mit Liebe gebacken"
+      lead="Was als kleine Bäckerei am Lindenhof begann, ist heute ein Ort für Frühstück, Kaffee und lange Abende. Wir backen morgens, kochen mittags und lassen abends den Tag ausklingen – mit Zutaten von Höfen aus der Region."
+    />
+    <a class="btn block mx-auto w-fit" href="/about">Mehr über uns</a>
+  </div>
+</section>
+
+<section class="section !pt-0">
+  <div class="container-site grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      boxes.map((box) => (
+        <article class="image-box card-shadow">
+          <img src={box.img} alt={box.title} width={900} height={675} loading="lazy" />
+          <div class="hover-layer flex-col gap-2 text-center" aria-hidden="true">
+            <span class="text-4xl leading-none">{box.icon}</span>
+            <span class="text-lg font-bold uppercase tracking-wide">{box.title}</span>
+            <span class="text-sm">{box.excerpt}</span>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

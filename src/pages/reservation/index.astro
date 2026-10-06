@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageTitle from '../../components/PageTitle.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+---
+
+<BaseLayout title="Reservierung – Café Lindenhof Kassel">
+  <PageTitle title="Reservierung" />
+
+  <section class="section">
+    <div class="container-site max-w-[860px]">
+      <SectionHeading
+        eyebrow="Ihr Tisch"
+        title="Termin anfragen"
+        lead="Reservierungen nehmen wir online entgegen. Für Gruppen ab zehn Personen rufen Sie uns bitte an."
+      />
+
+      <div class="card-shadow p-6 md:p-10" data-reservation>
+        <form class="grid gap-5" data-reservation-form novalidate>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="grid gap-2">
+              <span class="text-[13px] font-bold uppercase tracking-wide text-ink">Datum</span>
+              <input class="field field--plain" type="date" name="date" required />
+            </label>
+            <label class="grid gap-2">
+              <span class="text-[13px] font-bold uppercase tracking-wide text-ink">Uhrzeit</span>
+              <input class="field field--plain" type="time" name="time" required />
+            </label>
+          </div>
+
+          <label class="grid gap-2">
+            <span class="text-[13px] font-bold uppercase tracking-wide text-ink">Personen (1–30)</span>
+            <input class="field field--plain" type="number" name="guests" min="1" max="30" value="2" required />
+          </label>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="grid gap-2">
+              <span class="text-[13px] font-bold uppercase tracking-wide text-ink">Name</span>
+              <input class="field field--plain" type="text" name="name" required />
+            </label>
+            <label class="grid gap-2">
+              <span class="text-[13px] font-bold uppercase tracking-wide text-ink">Telefon</span>
+              <input class="field field--plain" type="tel" name="phone" required />
+            </label>
+          </div>
+
+          <label class="grid gap-2">
+            <span class="text-[13px] font-bold uppercase tracking-wide text-ink">E-Mail</span>
+            <input class="field field--plain" type="email" name="email" />
+          </label>
+
+          <label class="grid gap-2">
+            <span class="text-[13px] font-bold uppercase tracking-wide text-ink">Wunsch (optional)</span>
+            <textarea class="field field--plain" name="note" rows="3"></textarea>
+          </label>
+
+          <div class="flex flex-wrap items-center gap-4">
+            <button class="btn btn--filled" type="submit">Tisch anfragen</button>
+            <p class="m-0 text-[13px]" role="status" data-reservation-status></p>
+          </div>
+        </form>
+
+        <div class="hidden" data-reservation-success>
+          <p class="m-0 text-[15px] font-semibold" style="color:var(--accent)">
+            Danke! Ihre Anfrage ist eingegangen – wir bestätigen per E-Mail oder Telefon (Demo, kein Versand).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>('[data-reservation]');
+  const form = wrap?.querySelector<HTMLFormElement>('[data-reservation-form]');
+  const status = wrap?.querySelector<HTMLElement>('[data-reservation-status]');
+  const success = wrap?.querySelector<HTMLElement>('[data-reservation-success]');
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const fields = [...form.querySelectorAll<HTMLInputElement>('input, textarea')];
+    const invalid = fields.find((field) => !field.checkValidity());
+    if (invalid) {
+      if (status) status.textContent = 'Bitte alle Pflichtfelder korrekt ausfüllen.';
+      invalid.focus();
+      return;
+    }
+    form.classList.add('hidden');
+    success?.classList.remove('hidden');
+  });
+</script>

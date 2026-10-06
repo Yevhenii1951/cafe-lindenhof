@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Story from '../components/sections/Story.astro';
+import Dishes from '../components/sections/Dishes.astro';
+import PriceList from '../components/sections/PriceList.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
+import PhotoStrip from '../components/sections/PhotoStrip.astro';
+import Newsletter from '../components/Newsletter.astro';
+---
+
+<BaseLayout title="Café Lindenhof – Frühstück, Kaffee & Küche in Kassel" accent="home" header="float">
+  <Hero />
+  <Story />
+  <Dishes />
+  <PriceList />
+  <Testimonials />
+  <Newsletter />
+  <PhotoStrip />
+</BaseLayout>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    const sections = [...document.querySelectorAll<HTMLElement>('[data-parallax-section]')];
+    const update = () => {
+      const vh = window.innerHeight;
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > vh) return;
+        const offset = (rect.top + rect.height / 2 - vh / 2) * -0.15;
+        section.style.backgroundPositionY = `${offset.toFixed(1)}px`;
+      });
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+</script>

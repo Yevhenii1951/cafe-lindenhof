@@ -1,0 +1,40 @@
+---
+import '@fontsource-variable/open-sans';
+import '@fontsource/meddon';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  accent?: 'home' | 'red' | 'deep';
+  header?: 'float' | 'static';
+}
+
+const {
+  title,
+  description = 'Café Lindenhof in Kassel – Frühstück, hausgemachtes Brot und ehrliche Küche. Tisch online reservieren.',
+  accent = 'red',
+  header = 'static'
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+  </head>
+  <body data-accent={accent}>
+    <Header variant={header} />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
