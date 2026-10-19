@@ -35,7 +35,7 @@ export const photo = (index: number, width = 1200): string => {
   return `${base}?auto=format&fit=crop&w=${width}&q=80`;
 };
 
-export const heroPhotos = [photo(11, 1800), photo(6, 1800), photo(2, 1800)];
+export const heroPhotos = [photo(2, 1800), photo(6, 1800), photo(11, 1800)];
 export const bandPhoto = photo(4, 1800);
 export const parallaxPhoto = photo(7, 1800);
 export const pageTitlePhoto = photo(15, 1800);

@@ -24,8 +24,8 @@ const boxes = [
   <div class="container-site grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {
       boxes.map((box) => (
-        <article class="image-box card-shadow">
-          <img src={box.img} alt={box.title} width={900} height={675} loading="lazy" />
+        <article class="image-box card-shadow aspect-[4/3]">
+          <img class="absolute inset-0 h-full! w-full object-cover" src={box.img} alt={box.title} width={900} height={675} loading="lazy" />
           <div class="hover-layer flex-col gap-2 text-center" aria-hidden="true">
             <span class="text-4xl leading-none">{box.icon}</span>
             <span class="text-lg font-bold uppercase tracking-wide">{box.title}</span>
